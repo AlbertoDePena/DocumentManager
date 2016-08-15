@@ -1,0 +1,78 @@
+﻿<dm:BaseWindow x:Class="DocumentManager.ImportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dm="clr-namespace:DocumentManager"
+        Icon="document.ico" 
+        Title="Import Document" 
+        Height="450" 
+        Width="430" 
+        MinHeight="250" 
+        MinWidth="250"
+        WindowStartupLocation="CenterScreen" >
+    
+    <DockPanel LastChildFill="True">
+        <ToolBar Height="50" DockPanel.Dock="Top">
+            <Button Style="{StaticResource ToolBarButton}" Command="{Binding ImportCommand, Mode=OneWay}" ToolTip="Import and close"
+                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Images/document-add.png" />
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource ToolBarButton}" Command="{Binding CancelCommand, Mode=OneWay}" ToolTip="Cancel and close"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" >
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Images/cancel.png" />
+                </StackPanel>
+            </Button>
+        </ToolBar>
+
+        <StatusBar Height="40" DockPanel.Dock="Bottom">
+            <TextBlock Text="{Binding Error}" Foreground="Crimson" />
+        </StatusBar>
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Name" HorizontalAlignment="Right"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Button Width="55" Grid.Column="0" Grid.Row="2" Style="{StaticResource ToolBarButton}" HorizontalAlignment="Right"
+                Command="{Binding FileDialogCommand, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Images/search.png" />
+                </StackPanel>
+            </Button>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right"  Text="Convert To PDF" />
+            <CheckBox Margin="5,0,0,0" Grid.Row="3" Grid.Column="1"  IsChecked="{Binding ConvertToPdf, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Grid.Column="0" Grid.Row="4" Text="Description" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <TextBox Grid.Column="1" Grid.Row="4" 
+                 Style="{StaticResource EditableDescriptionStyle}"
+                 Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="Document Type" HorizontalAlignment="Right"/>
+            <ComboBox Grid.Column="1" Grid.Row="1"
+                  ItemsSource="{Binding Path=DocumentTypeLookups}"
+                      SelectedItem="{Binding DocumentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Style="{StaticResource LabelStyle}" Content="{Binding Value}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+    </DockPanel>
+</dm:BaseWindow>

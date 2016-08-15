@@ -1,0 +1,66 @@
+﻿<dm:BaseWindow x:Class="DocumentManager.EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:dm="clr-namespace:DocumentManager"
+         Title="Edit Document"
+        Icon="document.ico" 
+        Height="350" 
+        Width="430"   
+        MinHeight="250" 
+        MinWidth="250"
+        WindowStartupLocation="CenterScreen" >
+
+    <DockPanel LastChildFill="True">
+
+        <ToolBar Height="50" DockPanel.Dock="Top">
+            <Button Style="{StaticResource ToolBarButton}" Command="{Binding SaveCommand, Mode=OneWay}" ToolTip="Save changes and close"
+                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Images/ok.png" />
+                </StackPanel>
+            </Button>
+       
+            <Button Style="{StaticResource ToolBarButton}" Command="{Binding CancelCommand, Mode=OneWay}" ToolTip="Cancel changes and close"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" >
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Images/cancel.png" />
+                </StackPanel>
+            </Button>
+        </ToolBar>
+        
+        <StatusBar Height="40" DockPanel.Dock="Bottom">
+            <TextBlock Text="{Binding Error}" Foreground="Crimson" />
+        </StatusBar>
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Name" HorizontalAlignment="Right"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="Description" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <TextBox Grid.Column="1" Grid.Row="2" 
+                 Style="{StaticResource EditableDescriptionStyle}"
+                 Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="Document Type" HorizontalAlignment="Right"/>
+            <ComboBox Grid.Column="1" Grid.Row="1"
+                      ItemsSource="{Binding DocumentTypeLookups}"
+                      SelectedItem="{Binding DocumentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Style="{StaticResource LabelStyle}" Content="{Binding Value}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+    </DockPanel>
+</dm:BaseWindow>

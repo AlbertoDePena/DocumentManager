@@ -1,0 +1,6 @@
+<DocumentData xmlns="http://schemas.datacontract.org/2004/07/DocumentManager.Data" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <DocumentTypes xmlns:a="http://schemas.datacontract.org/2004/07/DocumentManager.Model"></DocumentTypes>
+  <Documents xmlns:a="http://schemas.datacontract.org/2004/07/DocumentManager.Model">
+    <a:Document></a:Document>
+  </Documents>
+</DocumentData>

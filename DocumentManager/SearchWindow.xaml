@@ -1,0 +1,118 @@
+﻿<dm:BaseWindow x:Class="DocumentManager.SearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dm="clr-namespace:DocumentManager"
+        Title="Document Search" 
+        Icon="document.ico" 
+        Height="600" Width="600"   
+        MinHeight="250" 
+        MinWidth="250"
+        WindowStartupLocation="CenterScreen"  >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition />
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <ToolBar Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
+            <Button Style="{StaticResource ToolBarButton}" Command="{Binding ViewDocumentsCommand, Mode=OneWay}" ToolTip="View selected documents"
+                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Images/document.png" />
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource ToolBarButton}" Command="{Binding SearchCommand, Mode=OneWay}" ToolTip="Search"
+                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Images/search.png" />
+                </StackPanel>
+            </Button>
+            
+            <Button Style="{StaticResource ToolBarButton}" Command="{Binding ClearFieldsCommand, Mode=OneWay}" ToolTip="Clear search results and fields"
+                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Images/delete.png" />
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource ToolBarButton}" Command="{Binding CancelCommand, Mode=OneWay}" ToolTip="Cancel and close"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" >
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Images/cancel.png" />
+                </StackPanel>
+            </Button>
+        </ToolBar>
+
+        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right"  Text="Search Criteria" />
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SearchCriteria, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right"  Text="Document Type" />
+        <ComboBox Grid.Column="1" Grid.Row="2"
+                  ItemsSource="{Binding DocumentTypeLookups}"
+                      SelectedItem="{Binding DocumentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Style="{StaticResource LabelStyle}" Content="{Binding Value}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <GroupBox Header="Search Results" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
+            <DataGrid Margin="5"
+                      ItemsSource="{Binding ViewModels}" 
+                      AutoGenerateColumns="False" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Auto">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="" Width="AUTO">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Name" Width="AUTO">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Style="{StaticResource LabelStyle}" Content="{Binding Path=Name, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Document Type" Width="AUTO">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Style="{StaticResource LabelStyle}" Content="{Binding Path=DocumentTypeName, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Extension" Width="AUTO">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Style="{StaticResource LabelStyle}" Content="{Binding Path=Extension, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Description" Width="AUTO">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Style="{StaticResource LabelStyle}" Content="{Binding Path=Description, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        
+        <StatusBar Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4">
+            <TextBlock Text="{Binding Message}" Foreground="Blue" />
+        </StatusBar>
+    </Grid>
+</dm:BaseWindow>
